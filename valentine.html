@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>When You Need Me 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --pink1: #fff1f5;
+  --pink2: #ffe4ec;
+  --pink3: #ffd6e8;
+  --text: #4a2c3a;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, var(--pink1), var(--pink2), var(--pink3));
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  overflow-x: hidden;
+}
+
+/* gradient animation */
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* subtle texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("https://www.transparenttextures.com/patterns/soft-wallpaper.png");
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* floating hearts canvas */
+canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+/* app container */
+.app {
+  position: relative;
+  z-index: 1;
+  max-width: 550px;
+  margin: auto;
+  padding: 20px;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+
+.subtitle {
+  text-align: center;
+  font-size: 14px;
+  margin-bottom: 25px;
+  color: var(--text);
+}
+
+.footer {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 20px;
+  color: var(--text);
+  opacity: 0.7;
+}
+
+/* buttons */
+.button {
+  background: rgba(255,255,255,0.85);
+  backdrop-filter: blur(10px);
+  border-radius: 30px;
+  padding: 16px;
+  margin: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:hover {
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.modal-content {
+  background: rgba(255,255,255,0.96);
+  border-radius: 24px;
+  padding: 22px;
+  width: 90%;
+  max-width: 420px;
+  animation: popOnce 0.6s ease;
+}
+
+/* modal pop */
+@keyframes popOnce {
+  0% { transform: scale(0.95) translateY(10px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.close {
+  text-align: right;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* letter text */
+.typing {
+  white-space: pre-wrap;
+  line-height: 1.7;
+  color: var(--text);
+  max-height: 60vh;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+/* scrollbar styling */
+.typing::-webkit-scrollbar {
+  width: 6px;
+}
+
+.typing::-webkit-scrollbar-thumb {
+  background: rgba(200, 100, 140, 0.4);
+  border-radius: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="hearts"></canvas>
+
+<div class="app">
+  <h1>💐 Whenever You Need Me 💐</h1>
+  <div class="subtitle">i’m always here for and with you</div>
+   <div id="buttons"></div>
+</div>
+
+<div class="footer">
+  <div class="subtitle">💖 Made with love by your wife. I love you 💖</div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="readModal">
+  <div class="modal-content">
+    <div class="close" onclick="closeModal()">✖</div>
+    <div id="letterText" class="typing"></div>
+  </div>
+</div>
+
+
+<script>
+/* ---------------- LETTER DATA ---------------- */
+const letters = {
+ "open when you are having a bad day or a rough time": [
+        "I know today feels heavier than it should, probably the kind of day where small things seem to pile up and make breathing feel a little harder. But remember one bad day doesn’t undo who you are or everything you’re doing right. You’re allowed to have off days. I’m still proud of you and while I might not be there physically, I'm definetly here with you virtually",
+        "Today might seem like nothing is working and everything is wrong, but that's not true - its a lie told by bad please. Please don’t believe everything today is telling you. This moment will pass. And when it does, I’ll still be here, cheering you and loving you through it. I love you and so do a lot of other people",
+        "If today feels like survival mode, that’s okay. You don’t need to be productive, positive, or put together. You don't need to be at 100 percent all the time. Today you just need to get through and you don't need to do it alone - I'm here for you and will alway have space and energy for you. Remember my love, even when things are feeling uncertain and low, one thing will alway remain stable and true: you are loved, not for what you do, not for how well you cope but for the person you are. I love you, "
+    ],
+    "open when you are feeling a little insecure or unworthy": [
+        "My love let me tell this out loud: the way you show up means more to me than you realise, you treat me with kindness and care (even when I’m not at my easiest). You meet my emotions with patience and understanding, not judgment, and that tells me so much about the kind of person you are (exactly the one I want to spend rest of my life with). You don’t have to be perfect to be worthy, you already are so perfect my love. The way you choose understanding, the way you stay gentle, that’s not small and I really do appreciate it",
+        "I want you to know how safe I feel with you. You give me space to have moods, to make mistakes, to learn and to grow and you stay steady throughout while I do. That kind of patience is rare, it is something you choose over and over, and that kind of love you give me matters to me. You never make me feel small when I make mistakes, instead you let me evolve, and believe in me and us. Please remember: someone who can love like that is alway enough and 1000% times better than any person on this planet.",
+        "I hope you know this: when I look at you, I don’t see someone falling short, I see someone trying to awaly be their best version for themself, us and anothers. I am proud of you, not for being flawless, but for being so caring, patient, open to trying and for alway making effort. You don’t have to earn that pride my love, you already have it, "
+    ],    
+    "open when you are feeling lonely": [
+        "It's okay to feel lonely even when you are surrounded by people, it is probably craving of deep connects that you are missing. But alway know you are not alone. I see you. I know you. And even if it doesn’t feel like it right now, you matter deeply to me",
+        "You are not invesible or do not matter, craving that deep connect is a human and normal. But my love, this letter exist because you crossed my mind, and because your presence in my life matters more than you know. You might feel lonely today, and that is okay, but you are never alone",
+        "Feeling lonely doesn’t mean you’re unlovable, it means you crave connection, and that is a beautiful thing. Just know that if I were there, I would sit beside you without saying much, just letting you feel less alone in the quiet. And you are never meant or expected to do this alone"
+    ],
+    "open when you are pissed at me": [
+        "If you’re reading this, I probably messed up, and I’m sorry. I never want to be the reason you feel hurt, unheard, or frustrated. Your feelings are valid, even if they are messy or angry right now. I care more about understanding you, than you currently feel like. And I promise you it is us against the problem not you vs me",
+        "I hope you know that even when you are pissed with me, I still choose you, care for you and you matter to me. Let us talk when you’re ready. I’m listening, not to defend myself, but to truly understand you and not repeat whatever made you upset. I love you",
+    ],
+    "open when you are uncertain about us": [
+        "It is okay if you are feeling unsure right now. Uncertainty doesn’t mean something is wrong, it doesn’t mean we are breaking or failing, it means you care enough to feel deeply. You don’t have to push these feelings away, i'm not afraid of them or of you having them. We are allowed to have moments where things feel unclear, but that doesn’t undo what we have built, we will be okay I promise",
+        "I know the ups and downs we have can feel exhausting sometimes. One day feels steady, the next feels confusing, and it can make you wonder what it all means. However, I want you to know this: ups and downs are part of something alive, not something broken. Its okay for us to not alway be perfect or certain, but remember I'll alway keep showing up for us and care. Even when things feel complicated, my heart is still here and yours, choosing patience over fear. We don't have to solve everything today, just stay kind to each other as we move through this",
+        "Remember its okay to question whether we will make it through, but also remember one uncertain day does not define us. I am willing to try, willing to learn and willing to grow alongside you. This moment is just that: a moment, not a verdict. We will be okay (remember what you wrote behind our pic). And I’m still here alway, choosing you and us."
+    ],
+    "open when you miss me a little too much": [
+        "Close your eyes and imagine me beside you, laughing, holding your arm, ticking you and existing with you in the same space. Now let that imagination remind you that even tho its hard right now, it will feel so good when we are together again. Until then, let this letter be proof that you’re on my mind too and I miss you too",
+        "The reason you miss me so much is because you feel deeply for me, for us. It means what we share is meaningful and not replaceable. That is something to be sad about, it is something to celebrate and be comforted by. We miss each other because we love each other so much, how beautiful is that",
+        "I miss you too, even when I'm busy or smiling or not talkimg to you, you are not alone in this feeling. And I know it aches but that is because it matters. And this will all be worth it, and a distant memory soon because in the end we will be together"
+    ],
+    "open when you are bored": [
+        "Text me man, kya timepass kar rahe ho",
+    ],
+    "open when you are overthinking": [
+        "Pause my love and take a deep breathe. You don’t need to figure everything out right now, not every thought is urgent, and not every worry is true. What matters, will be there tomorrow as well. You are allowed to slow down and rest for today.",
+        " Overthinking has a way of pulling you into futures that haven’t happened and getting you stuck in that loop. I want you to ground yourself, take a breathe, name 5 things you can see, 4 you can feel, 3 you can hear, 2 you can smell, 1 you can taste, come back here, to what is real right now. Right now, you are safe, right now, you are cared for, right now you are loved. If something needs attention, we will face it together with patience, you don’t have to carry every possibility alone. Clarity will comes with time, not pressure",
+    ],
+    "open when you feel happy and loved": [
+        "Hold onto this feeling, on harder days, remember that this happiness exists, and we have created it together, and we can always find our way back to it. I’m grateful for you, for your presence, your effort, your care, and I hope in this moment you know how deeply you are loved, just as you are. I also hope you know how easy it is to love you, not because you’re perfect, but because you’re you. I am yours and I'll continue to be yours. I love you so much"
+    ]
+};
+
+/* ---------------- UI ---------------- */
+function renderButtons() {
+  const container = document.getElementById("buttons");
+  Object.keys(letters).forEach(cat => {
+    const b = document.createElement("div");
+    b.className = "button";
+    b.textContent = "🌸 " + cat;
+    b.onclick = () => openLetter(cat);
+    container.appendChild(b);
+  });
+}
+
+function openLetter(cat) {
+  const modal = document.getElementById("readModal");
+  const text = document.getElementById("letterText");
+  text.innerHTML = "";
+  modal.style.display = "flex";
+  const letter = letters[cat][Math.floor(Math.random() * letters[cat].length)];
+  typeText(text, letter);
+}
+
+function closeModal() {
+  document.getElementById("readModal").style.display = "none";
+}
+
+function typeText(el, txt, i = 0) {
+  if (i < txt.length) {
+    el.innerHTML += txt[i];
+    setTimeout(() => typeText(el, txt, i + 1), 18);
+  }
+}
+
+renderButtons();
+
+/* ---------------- FLOATING HEARTS ---------------- */
+const canvas = document.getElementById("hearts");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
+let hearts = [];
+
+function createHeart() {
+  hearts.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height + 20,
+    size: Math.random() * 18 + 10,
+    speed: Math.random() * 1 + 0.4,
+    alpha: Math.random() * 0.5 + 0.3
+  });
+}
+
+function drawHearts() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hearts.forEach((h, i) => {
+    ctx.globalAlpha = h.alpha;
+    ctx.font = `${h.size}px serif`;
+    ctx.fillText("♥", h.x, h.y);
+    h.y -= h.speed;
+    if (h.y < -20) hearts.splice(i, 1);
+  });
+}
+
+setInterval(createHeart, 450);
+
+function animate() {
+  drawHearts();
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
